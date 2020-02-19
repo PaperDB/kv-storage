@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "lib": [
+            "es2019",
+            "DOM"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "strictNullChecks": true,
+        "sourceMap": false,
+        "declaration": true,
+        "newLine": "lf",
+        "rootDir": "src",
+        "outDir": "dist"
+    },
+    "include": [
+        "src/*"
+    ]
+}
