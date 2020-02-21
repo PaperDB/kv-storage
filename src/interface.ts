@@ -11,9 +11,7 @@ export type VALUE = ArrayBuffer
   | number | PlainObj | string | boolean
 
 /**
- * Basic Interface for Preference (key-value) Storage
- * Support for various backend;
- * The recommend backend is LocalForage + localforage-cordovasqlitedriver
+ * Basic Interface for `@232c/kv-storage` Preference (key-value) Storage
  */
 export interface KVStorage {
   /** the name of the driver being used */
