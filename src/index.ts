@@ -1,7 +1,7 @@
 
 import LocalForage from 'localforage'
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
-import { KVStorage, VALUE } from './interface'
+import { KVStorage as KVStorageInterface, VALUE } from './interface'
 import IPFSRepoDriver from './localforage-driver-ipfs-repo'
 import Repo from 'ipfs-repo'
 
@@ -60,7 +60,7 @@ export const getDefaultConfig = () => {
  *
  * Modified from https://github.com/ionic-team/ionic-storage/blob/master/src/storage.ts
  */
-export class LocalForageStorage implements KVStorage {
+export class KVStorage implements KVStorageInterface {
   private _db: Promise<LocalForage> | LocalForage;
   private _driver: string | null = null;
 
@@ -194,4 +194,4 @@ export class LocalForageStorage implements KVStorage {
   }
 }
 
-export default LocalForageStorage
+export default KVStorage
