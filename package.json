@@ -12,6 +12,12 @@
     "url": "https://github.com/232c/kv-storage/issues"
   },
   "homepage": "https://github.com/232c/kv-storage#readme",
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json",
+    ".eslintrc"
+  ],
   "dependencies": {
     "ipfs-repo": "^1.0.0",
     "localforage": "^1.7.3",

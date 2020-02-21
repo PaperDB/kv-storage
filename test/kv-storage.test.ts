@@ -63,6 +63,7 @@ describe('kv-storage: using localforage-driver-ipfs-repo', () => {
     it('the key does not exist before adding', keyNotExit)
 
     it('storage.set has the correct return value', async () => {
+      // @ts-ignore
       const v = await storage.set(key, value)
       expect(v).toStrictEqual(value)
     })
