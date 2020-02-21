@@ -70,14 +70,16 @@ export class KVStorage implements KVStorageInterface {
     this._db = (async () => {
       const _config = Object.assign({}, getDefaultConfig(), config || {})
 
+      const drivers = this._getDrivers(_config.driverOrder)
       const actualConfig = Object.assign({}, _config, {
-        driver: this._getDrivers(_config.driverOrder),
+        driver: drivers,
       })
 
       await LocalForage.defineDriver(CordovaSQLiteDriver)
       await LocalForage.defineDriver(IPFSRepoDriver)
 
       const db = LocalForage.createInstance(actualConfig)
+      await db.setDriver(drivers)
 
       this._driver = db.driver()
 
