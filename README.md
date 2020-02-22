@@ -42,6 +42,12 @@ const storage = new KVStorage({
   ipfsRepo: './test-repo',  // path to the ipfs-repo being used, only required when using ipfs-repo localForage driver
 })
 
+// or use ipfs Repo instance
+const Repo = require('ipfs-repo')
+const storage = new KVStorage({
+  ipfsRepo: new Repo('./test-repo'),
+})
+
 await storage.ready()
 
 await storage.set('test', 123)
