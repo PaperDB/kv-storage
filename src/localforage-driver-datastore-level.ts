@@ -18,7 +18,7 @@ interface DriverThis extends LocalForage {
   /**
    * the return value of _initStorage
    */
-  readonly _ready: Promise<Datastore>;
+  readonly _ready: Datastore;
 
   /**
    * interface-datastore
@@ -70,7 +70,6 @@ export const LevelDatastoreDriver: Driver = {
 
   // @ts-ignore
   async setItem (this: DriverThis, key: string, value: VALUE) {
-    await this._ready
     const buf = serialize(value) as Buffer
     const k = this._toKeyClass(key)
     await this._db.put(k, buf)
@@ -79,7 +78,6 @@ export const LevelDatastoreDriver: Driver = {
 
   // @ts-ignore
   async getItem (this: DriverThis, key) {
-    await this._ready
     const k = this._toKeyClass(key)
 
     let buf: Buffer
@@ -95,14 +93,11 @@ export const LevelDatastoreDriver: Driver = {
 
   // @ts-ignore
   async removeItem (this: DriverThis, key) {
-    await this._ready
     const k = this._toKeyClass(key)
     await this._db.delete(k)
   },
 
   async clear (this: DriverThis) {
-    await this._ready
-
     const q = this._db.query({
       prefix: this._keyPrefix,
       keysOnly: true,
@@ -117,8 +112,6 @@ export const LevelDatastoreDriver: Driver = {
 
   // @ts-ignore
   async iterate (this: DriverThis, iteratorCallback) {
-    await this._ready
-
     const q = this._db.query({
       prefix: this._keyPrefix,
     })
@@ -137,8 +130,6 @@ export const LevelDatastoreDriver: Driver = {
    * @deprecated
    */
   async key (this: DriverThis, keyIndex: number) {
-    await this._ready
-
     const q = this._db.query({
       prefix: this._keyPrefix,
       limit: 1,
@@ -156,8 +147,6 @@ export const LevelDatastoreDriver: Driver = {
   },
 
   async keys (this: DriverThis) {
-    await this._ready
-
     const q = this._db.query({
       prefix: this._keyPrefix,
       keysOnly: true,
