@@ -2,15 +2,15 @@ import KVStorage from '../src/'
 import path from 'path'
 import { rmrf } from './utils'
 
-describe('kv-storage: using localforage-driver-ipfs-repo', () => {
-  const repoPath = path.join(__dirname, '.testrepo')
+describe('kv-storage: using localforage-driver-datastore-level', () => {
+  const dbPath = path.join(__dirname, '.testdb')
 
   let storage: KVStorage
 
   beforeAll(async () => {
     storage = new KVStorage({
-      // driverOrder: ['ipfs-repo'],
-      ipfsRepo: repoPath,
+      // driverOrder: ['leveldatastore'],
+      path: dbPath,
     })
     await storage.ready()
   })
@@ -45,8 +45,8 @@ describe('kv-storage: using localforage-driver-ipfs-repo', () => {
     })
   }
 
-  it('Using ipfs-repo driver', async () => {
-    expect(storage.driver).toBe('ipfs-repo')
+  it('Using level-datastore driver', async () => {
+    expect(storage.driver).toBe('level-datastore')
   })
 
   describe('When there is no key/value', isEmptyStorage)
@@ -129,12 +129,8 @@ describe('kv-storage: using localforage-driver-ipfs-repo', () => {
     isEmptyStorage()
   })
 
-  it.todo('when the constructor receives an invalid repo path')
-
-  it.todo('reopen the ipfs-repo (persistence)')
-
   afterAll(async () => {
     await storage.close()
-    await rmrf(repoPath)
+    await rmrf(dbPath)
   })
 })

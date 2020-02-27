@@ -7,15 +7,15 @@ LocalForage based key-value storage for Browser, Node.js, and Cordova/Ionic.
 
 * Browser: 
   * IndexedDB
-  * [ipfs-repo](src/localforage-driver-ipfs-repo.ts)
+  * [datastore-level](src/localforage-driver-datastore-level.ts)
   * WebSQL
   * localStorage
 * Node.js:
-  * [ipfs-repo](src/localforage-driver-ipfs-repo.ts)
+  * [datastore-level](src/localforage-driver-datastore-level.ts)
 * Cordova/Ionic
   * [SQLite](https://github.com/thgreasi/localForage-cordovaSQLiteDriver)
   * IndexedDB
-  * [ipfs-repo](src/localforage-driver-ipfs-repo.ts)
+  * [datastore-level](src/localforage-driver-datastore-level.ts)
   * WebSQL
   * localStorage
 
@@ -39,13 +39,7 @@ Example:
 const { KVStorage } = require('@232c/kv-storage')
 
 const storage = new KVStorage({
-  ipfsRepo: './test-repo',  // path to the ipfs-repo being used, only required when using ipfs-repo localForage driver
-})
-
-// or use ipfs Repo instance
-const Repo = require('ipfs-repo')
-const storage = new KVStorage({
-  ipfsRepo: new Repo('./test-repo'),
+  path: './test-db',  // path to the level-datastore being used, only required when using datastore-level localForage driver
 })
 
 await storage.ready()

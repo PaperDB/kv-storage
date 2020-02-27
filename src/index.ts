@@ -2,17 +2,20 @@
 import LocalForage from 'localforage'
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
 import { KVStorage as KVStorageInterface, VALUE } from './interface'
-import IPFSRepoDriver from './localforage-driver-ipfs-repo'
-import Repo from 'ipfs-repo'
+import LevelDatastoreDriver from './localforage-driver-datastore-level'
 
-type DriverNames = 'sqlite' | 'indexeddb' | 'ipfs-repo' | 'websql' | 'localstorage'
+type DriverNames = 'sqlite' | 'indexeddb' | 'leveldatastore' | 'websql' | 'localstorage'
+
+type PickRequired<T, K extends keyof T> = {
+  [P in K]-?: T[P];
+};
 
 export interface KVStorageConfig {
   /**
    * The name of the database.
    * May appear during storage limit prompts.
    * Useful to use the name of your app here.
-   * In localStorage, this is used as a key prefix for all keys stored in localStorage and ipfs-repo.
+   * In localStorage, this is used as a key prefix for all keys stored in localStorage and level-datastore.
    * Must be alphanumeric, with underscores.
    */
   name?: string;
@@ -37,20 +40,18 @@ export interface KVStorageConfig {
    */
   dbKey?: string;
   /**
-   * Used only in localforage-driver-ipfs-repo
-   * @type string (file path) or ipfs.Repo instance
-   * @see options.repo in IPFS Constructor
+   * Used only in localforage-driver-datastore-level
    */
-  ipfsRepo?: string | Repo;
+  path?: string;
 }
 
-export const getDefaultConfig = () => {
+export const getDefaultConfig = (): PickRequired<KVStorageConfig, 'name' | 'storeName' | 'dbKey' | 'driverOrder' | 'path'> => {
   return {
     name: '232c_preference',
     storeName: 'kvstorage',
     dbKey: '232c_preference',
-    driverOrder: ['sqlite', 'indexeddb', 'ipfs-repo', 'websql', 'localstorage'],
-    ipfsRepo: typeof process !== 'undefined' ? '~/.jsipfs' : 'ipfs',
+    driverOrder: ['sqlite', 'indexeddb', 'leveldatastore', 'websql', 'localstorage'],
+    path: typeof process !== 'undefined' ? '~/.232c-kvdb' : '232c-kvdb',
   }
 }
 
@@ -76,7 +77,7 @@ export class KVStorage implements KVStorageInterface {
       })
 
       await LocalForage.defineDriver(CordovaSQLiteDriver)
-      await LocalForage.defineDriver(IPFSRepoDriver)
+      await LocalForage.defineDriver(LevelDatastoreDriver)
 
       const db = LocalForage.createInstance(actualConfig)
       await db.setDriver(drivers)
@@ -112,8 +113,8 @@ export class KVStorage implements KVStorageInterface {
       switch (driver) {
         case 'sqlite':
           return CordovaSQLiteDriver._driver
-        case 'ipfs-repo':
-          return IPFSRepoDriver._driver
+        case 'leveldatastore':
+          return LevelDatastoreDriver._driver
         case 'indexeddb':
           return LocalForage.INDEXEDDB
         case 'websql':

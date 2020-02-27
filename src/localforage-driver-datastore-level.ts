@@ -1,6 +1,6 @@
 
 import LocalForage, { defineDriver, createInstance } from 'localforage'
-import Repo from 'ipfs-repo'
+import LevelDatastore from 'datastore-level'
 import { Key, Datastore } from 'interface-datastore'
 import { VALUE } from './interface'
 import { KVStorageConfig } from './index'
@@ -18,7 +18,7 @@ interface DriverThis extends LocalForage {
   /**
    * the return value of _initStorage
    */
-  readonly _ready: Promise<Repo>;
+  readonly _ready: Promise<Datastore>;
 
   /**
    * interface-datastore
@@ -42,48 +42,11 @@ interface DriverThis extends LocalForage {
   _fromKeyClass: (k: Key) => string;
 }
 
-/**
- * fake repo locker to ignore locking on the ipfs-repo
- * (repo may not be closed properly)
- */
-const noLocker = {
-  lock () {
-    return {
-      close () { },
-    }
-  },
-}
+export const LevelDatastoreDriver: Driver = {
+  _driver: 'level-datastore',
 
-/**
- * @param repo string (the path for this repo) or ipfs.Repo instance
- */
-export const initIPFSRepo = async (repo: Repo | string): Promise<Repo> => {
-  if (!(repo instanceof Repo)) {
-    repo = new Repo(repo)
-  }
-
-  if (!(await repo.exists()) || !(await repo.isInitialized())) {
-    await repo.init({})
-  }
-
-  // @ts-ignore
-  // ignore locking (repo may not be closed properly)
-  repo._locker = noLocker
-
-  if (repo.closed) {
-    await repo.open()
-  }
-
-  return repo
-}
-
-export const IPFSRepoDriver: Driver = {
-  _driver: 'ipfs-repo',
-
-  async _initStorage (this: DriverThis, options: KVStorageConfig) {
-    const repo = await initIPFSRepo(options.ipfsRepo || 'ipfs')
-
-    const db = repo.datastore
+  _initStorage (this: DriverThis, options: KVStorageConfig) {
+    const db = new LevelDatastore(options.path || './kvdb')
     this._db = db
 
     const keyPrefix = '/' + this._config.name + '/'
@@ -215,4 +178,4 @@ export const IPFSRepoDriver: Driver = {
   },
 }
 
-export default IPFSRepoDriver
+export default LevelDatastoreDriver
