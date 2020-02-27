@@ -1,7 +1,7 @@
 {
   "name": "@232c/kv-storage",
   "description": "LocalForage based key-value storage for Browser, Node.js (use datastore-level), and Cordova/Ionic (use localforage-cordovasqlitedriver)",
-  "version": "2.0.0-beta",
+  "version": "2.0.0",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
@@ -19,7 +19,6 @@
     ".eslintrc"
   ],
   "dependencies": {
-    "@types/interface-datastore": "^0.8.0",
     "datastore-level": "^0.14.1",
     "localforage": "^1.7.3",
     "localforage-cordovasqlitedriver": "^1.8.0",
