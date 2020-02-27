@@ -1,5 +1,5 @@
 
-import LocalForage from 'localforage'
+import LocalForage, { defineDriver } from 'localforage'
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
 import { KVStorage as KVStorageInterface, VALUE } from './interface'
 import LevelDatastoreDriver from './localforage-driver-datastore-level'
@@ -55,6 +55,21 @@ export const getDefaultConfig = (): PickRequired<KVStorageConfig, 'name' | 'stor
   }
 }
 
+type Driver = typeof defineDriver extends (driver: infer A) => any ? A : never
+
+/**
+ * define a LocalForage driver.  
+ * 
+ * solves the problem that when creating the 2nd instance, the drivers will be re-defined
+ */
+const _defineDriver = async (driver: Driver) => {
+  try {
+    await LocalForage.getDriver(driver._driver)
+  } catch (_) {
+    await LocalForage.defineDriver(driver)
+  }
+}
+
 /**
  * Preference (key-value) Storage,
  * work in both Browser, Node.js, and Cordova/Ionic
@@ -76,8 +91,8 @@ export class KVStorage implements KVStorageInterface {
         driver: drivers,
       })
 
-      await LocalForage.defineDriver(CordovaSQLiteDriver)
-      await LocalForage.defineDriver(LevelDatastoreDriver)
+      await _defineDriver(CordovaSQLiteDriver)
+      await _defineDriver(LevelDatastoreDriver)
 
       const db = LocalForage.createInstance(actualConfig)
       await db.setDriver(drivers)
