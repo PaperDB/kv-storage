@@ -10,5 +10,7 @@
     "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
     "javascript.format.insertSpaceAfterConstructor": true,
     "typescript.format.insertSpaceAfterConstructor": true,
-    "eslint.autoFixOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
 }
