@@ -9,6 +9,12 @@
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-misused-new": "error",
         "@typescript-eslint/member-delimiter-style": "warn",
+        "no-trailing-spaces": [
+            "error",
+            {
+                "ignoreComments": true
+            }
+        ],
         "comma-dangle": [
             "warn",
             "always-multiline"
