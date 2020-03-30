@@ -47,11 +47,11 @@ export interface KVStorageConfig {
 
 export const getDefaultConfig = (): PickRequired<KVStorageConfig, 'name' | 'storeName' | 'dbKey' | 'driverOrder' | 'path'> => {
   return {
-    name: '232c_preference',
+    name: 'paperdb_preference',
     storeName: 'kvstorage',
-    dbKey: '232c_preference',
+    dbKey: 'paperdb_preference',
     driverOrder: ['sqlite', 'indexeddb', 'leveldatastore', 'websql', 'localstorage'],
-    path: typeof process !== 'undefined' ? '~/.232c-kvdb' : '232c-kvdb',
+    path: typeof process !== 'undefined' ? '~/.paperdb-kvdb' : 'paperdb-kvdb',
   }
 }
 

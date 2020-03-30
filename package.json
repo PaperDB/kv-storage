@@ -1,17 +1,17 @@
 {
-  "name": "@232c/kv-storage",
+  "name": "@paper-db/kv-storage",
   "description": "LocalForage based key-value storage for Browser, Node.js (use datastore-level), and Cordova/Ionic (use localforage-cordovasqlitedriver)",
   "version": "2.0.1",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/232c/kv-storage.git"
+    "url": "git+https://github.com/PaperDB/kv-storage.git"
   },
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/232c/kv-storage/issues"
+    "url": "https://github.com/PaperDB/kv-storage/issues"
   },
-  "homepage": "https://github.com/232c/kv-storage#readme",
+  "homepage": "https://github.com/PaperDB/kv-storage#readme",
   "files": [
     "dist",
     "src",

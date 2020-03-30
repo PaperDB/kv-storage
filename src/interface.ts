@@ -11,7 +11,7 @@ export type VALUE = ArrayBuffer
   | number | PlainObj | string | boolean
 
 /**
- * Basic Interface for `@232c/kv-storage` Preference (key-value) Storage
+ * Basic Interface for `@paper-db/kv-storage` Preference (key-value) Storage
  */
 export interface KVStorage {
   /** the name of the driver being used */

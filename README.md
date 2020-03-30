@@ -1,5 +1,5 @@
 
-# @232c/kv-storage
+# @paper-db/kv-storage
 
 LocalForage based key-value storage for Browser, Node.js, and Cordova/Ionic.
 
@@ -22,7 +22,7 @@ LocalForage based key-value storage for Browser, Node.js, and Cordova/Ionic.
 ## Installation
 
 ```
-npm install @232c/kv-storage
+npm install @paper-db/kv-storage
 ```
 
 If you would like to use SQLite as a storage engine for Cordova/Ionic, install the SQLite plugin dependency:
@@ -36,7 +36,7 @@ cordova plugin add cordova-sqlite-storage --save
 Example:
 
 ```js
-const { KVStorage } = require('@232c/kv-storage')
+const { KVStorage } = require('@paper-db/kv-storage')
 
 const storage = new KVStorage({
   path: './test-db',  // path to the level-datastore being used, only required when using datastore-level localForage driver
@@ -61,7 +61,7 @@ await storage.remove('test')
 
 ## API
 
-[see dist/index.d.ts](https://cdn.jsdelivr.net/npm/@232c/kv-storage/dist/index.d.ts)
+[see dist/index.d.ts](https://cdn.jsdelivr.net/npm/@paper-db/kv-storage/dist/index.d.ts)
 
 ## License
 
