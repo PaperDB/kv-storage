@@ -6,6 +6,10 @@ import { VALUE } from './interface'
 import { KVStorageConfig } from './index'
 import { serialize, deserialize } from './serializer'
 
+// Make sure the native fs module exists, and the fs module will not be packed by a bundler
+// Copy from orbit-db-storage-adapter to keep consistency
+const fsShim = (typeof window === 'object' || typeof self === 'object') ? null : eval('require("fs")') // eslint-disable-line
+
 type Driver = typeof defineDriver extends (driver: infer A) => any ? A : never
 type LocalForageOptions = typeof createInstance extends (options: infer A) => any ? A : never
 
@@ -46,6 +50,13 @@ export const LevelDatastoreDriver: Driver = {
   _driver: 'level-datastore',
 
   _initStorage (this: DriverThis, options: KVStorageConfig) {
+    // fix the bug in levelup-js / leveldown
+    // leveldown will throw an error if the parent path to the leveldb does not exist (linux only)
+    // fix this by ensuring all parent directories to exist
+    if (fsShim && fsShim.mkdirSync) {
+      fsShim.mkdirSync(options.path, { recursive: true })
+    }
+
     const db = new LevelDatastore(options.path || './kvdb')
     this._db = db
 
